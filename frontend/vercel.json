@@ -1,0 +1,10 @@
+{
+  "$schema": "https://vercel.sh",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

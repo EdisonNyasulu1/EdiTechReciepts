@@ -28,8 +28,7 @@ export default function Login() {
     <div className="login-body">
       <div className="login-card">
         <div className="logo login-logo">
-          <span className="logo-edi">Edi</span>
-          <span className="logo-tech">Tech</span> <span className="logo-graphix">graphix</span>
+          <span className="logo-tech">EdiTech</span> <span className="logo-graphix">graphix</span>
         </div>
         <h2>Authorized Access Only</h2>
         <p>Please log in to manage transactions and receipts.</p>

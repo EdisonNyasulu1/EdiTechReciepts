@@ -1,0 +1,8 @@
+Place your receipt/invoice/quotation background image in this folder and name it:
+
+    Editech-Graphix-Receipt-v2.1.jpg
+
+The canvas in PreviewModal.jsx loads it from "/Editech-Graphix-Receipt-v2.1.jpg"
+(the site root), which Vite serves directly from this "public" folder.
+
+You can delete this text file once the real image is in place.

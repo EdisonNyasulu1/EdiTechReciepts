@@ -11,22 +11,25 @@ const EMPTY_EXPENSE = {
 export default function Expenses({ expenseData, onDataChanged }) {
   const [form, setForm] = useState(EMPTY_EXPENSE);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (field) => (e) => setForm((prev) => ({ ...prev, [field]: e.target.value }));
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const amount = parseFloat(form.amount);
+    if (!(amount > 0)) {
+      setError("Please enter an amount above zero.");
+      return;
+    }
     setSaving(true);
+    setError("");
     try {
-      await api.addExpense({
-        date: form.date,
-        category: form.category,
-        desc: form.desc,
-        amount: parseFloat(form.amount) || 0,
-      });
+      await api.addExpense({ date: form.date, category: form.category, desc: form.desc.trim(), amount });
       setForm(EMPTY_EXPENSE);
       await onDataChanged();
-      alert("Expense recorded successfully!");
+    } catch (err) {
+      setError(`Expense was not saved: ${err.message}`);
     } finally {
       setSaving(false);
     }
@@ -34,8 +37,13 @@ export default function Expenses({ expenseData, onDataChanged }) {
 
   async function handleDelete(id) {
     if (!window.confirm("Are you sure you want to delete this expense record?")) return;
-    await api.deleteExpense(id);
-    await onDataChanged();
+    setError("");
+    try {
+      await api.deleteExpense(id);
+      await onDataChanged();
+    } catch (err) {
+      setError(`Could not delete the expense: ${err.message}`);
+    }
   }
 
   return (
@@ -72,6 +80,8 @@ export default function Expenses({ expenseData, onDataChanged }) {
           <label htmlFor="expenseAmount">Amount (MWK):</label>
           <input
             type="number"
+            min="0"
+            step="any"
             id="expenseAmount"
             value={form.amount}
             onChange={handleChange("amount")}
@@ -79,6 +89,7 @@ export default function Expenses({ expenseData, onDataChanged }) {
             required
           />
         </div>
+        {error && <div className="alert-error full-width">{error}</div>}
         <div className="form-group full-width">
           <button type="submit" className="btn-primary" disabled={saving}>
             {saving ? "Saving..." : "Add Expense"}

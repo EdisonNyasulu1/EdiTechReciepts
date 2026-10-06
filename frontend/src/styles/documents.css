@@ -1,0 +1,154 @@
+/* Additions for the quotation form, save-status banners and the saved-document viewer.
+   Uses the same brand variables as App.css. */
+
+/* ===== Quotation line items ===== */
+.qt-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+.qt-item {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr 1.4fr;
+    gap: 0.6rem;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-left: 4px solid var(--brand-orange);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    min-width: 0;
+}
+
+.qt-item > div { min-width: 0; }
+.qt-item label,
+.qt-label { display: block; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.25rem; }
+
+.qt-item input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.6rem 0.7rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #fff;
+    color: #270540;
+}
+
+.qt-item-head {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.qt-desc { grid-column: 1 / -1; }
+
+.qt-linetotal {
+    padding-top: 0.55rem;
+    font-weight: 700;
+    font-size: 0.9rem;
+    overflow-wrap: anywhere;
+}
+
+.qt-remove {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+    padding: 0.2rem 0.4rem;
+}
+.qt-remove:hover { text-decoration: underline; }
+
+.btn-ghost {
+    width: 100%;
+    padding: 0.7rem;
+    background: transparent;
+    color: var(--text-color);
+    border: 1.5px dashed var(--brand-orange);
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-ghost:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.qt-inline { display: flex; gap: 0.5rem; }
+.qt-inline select { flex: 0 0 auto; }
+.qt-inline input { flex: 1; min-width: 0; }
+
+.qt-summary {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+}
+.qt-summary > div { display: flex; justify-content: space-between; gap: 1rem; padding: 0.2rem 0; font-size: 0.9rem; }
+.qt-summary .qt-grand { margin-top: 0.3rem; padding-top: 0.5rem; border-top: 1px solid #ddd; font-weight: 700; font-size: 1.05rem; }
+.qt-summary small { display: block; margin-top: 0.4rem; opacity: 0.75; font-style: italic; }
+
+@media (min-width: 600px) {
+    .qt-item { grid-template-columns: 5rem 1fr 1fr; }
+}
+
+/* ===== Save-status banners (preview modal, restore result) ===== */
+.doc-banner {
+    margin: 0.6rem 0;
+    padding: 0.6rem 0.8rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: left;
+    background: #eef0f6;
+    color: #270540;
+    border: 1px solid #d9dce8;
+}
+.doc-banner.ok { background: #e7f6ec; border-color: #bfe3cb; color: #1e6b3a; }
+.doc-banner.warn { background: #fff4e0; border-color: #f5d9a3; color: #8a5300; }
+.doc-banner.err { background: #fdecea; border-color: #f5c6cb; color: #c0392b; }
+
+.doc-banner-btn {
+    margin-left: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    border: 1px solid currentColor;
+    background: transparent;
+    color: inherit;
+    font-weight: 600;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+/* ===== Portrait (quotation) preview ===== */
+.canvas-wrapper.portrait #receiptCanvas { max-width: 540px; margin: 0 auto; }
+
+/* ===== Financials table additions ===== */
+.btn-view {
+    background-color: var(--brand-purple);
+    color: #ffffff;
+    border: none;
+    padding: 0.35rem 0.65rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-view:hover { background-color: #3d0a63; }
+
+.row-actions { white-space: nowrap; }
+.row-actions > * + * { margin-left: 0.4rem; }
+.row-note { color: #999; padding: 0 0.5rem; cursor: help; }
+
+.fin-note { font-size: 0.85rem; margin: -0.5rem 0 1rem; opacity: 0.8; }
+.fin-filters { display: flex; gap: 0.5rem; }
+.fin-filters input { flex: 1; min-width: 0; margin-bottom: 1rem; }
+.fin-filters select {
+    margin-bottom: 1rem;
+    padding: 0.7rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #270540;
+}

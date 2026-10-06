@@ -1,17 +1,20 @@
 import jwt from "jsonwebtoken";
+import { config } from "../config.js";
+
+/** Returns the logged-in user's token payload, or null if there is no valid login cookie. */
+export function readSession(req) {
+  const token = req.cookies?.token;
+  if (!token) return null;
+  try {
+    return jwt.verify(token, config.jwtSecret, { algorithms: ["HS256"] });
+  } catch {
+    return null;
+  }
+}
 
 export function requireAuth(req, res, next) {
-  const token = req.cookies?.token;
-
-  if (!token) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
-
-  try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = payload;
-    next();
-  } catch (err) {
-    return res.status(401).json({ error: "Unauthorized" });
-  }
+  const user = readSession(req);
+  if (!user) return res.status(401).json({ error: "Your session has expired. Please sign in again." });
+  req.user = user;
+  next();
 }

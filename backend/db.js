@@ -1,21 +1,23 @@
 import pg from "pg";
-import dotenv from "dotenv";
+import { config } from "./config.js";
 
-dotenv.config();
+// Return NUMERIC columns (amounts) as real numbers instead of strings
+pg.types.setTypeParser(1700, (value) => parseFloat(value));
 
 const { Pool } = pg;
 
-if (!process.env.DATABASE_URL) {
-  console.error(
-    "Missing DATABASE_URL. Copy .env.example to .env and set your Neon connection string."
-  );
-}
-
 export const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  connectionString: config.databaseUrl,
+  ssl: config.dbSsl ? { rejectUnauthorized: config.dbSslRejectUnauthorized } : false,
+  max: config.dbPoolMax,
+  idleTimeoutMillis: 30_000,
+  connectionTimeoutMillis: 15_000, // Neon can take a few seconds to wake up
 });
 
 pool.on("error", (err) => {
-  console.error("Unexpected error on idle Postgres client", err);
+  console.error("Unexpected error on idle Postgres client:", err.message);
 });
+
+export async function checkDb() {
+  await pool.query("SELECT 1");
+}
